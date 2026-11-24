@@ -3,17 +3,84 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Block Dodger</title>
-<style>
-  html, body { margin: 0; height: 100%; overflow: hidden; background: #11141b; }
-  #game { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
-  /* Read aloud, never shown: the status line screen readers announce. */
-  #status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-</style>
+<title>CAYO VERDE</title>
+<link rel="stylesheet" href="src/style.css">
 </head>
 <body>
-<canvas id="game" aria-label="Block Dodger: move the paddle left and right to dodge falling blocks and catch coins"></canvas>
-<p id="status" role="status" aria-live="polite"></p>
-<script type="module" src="./src/main.js"></script>
+<div id="game-container"></div>
+
+<!-- In-game HUD (hidden until play starts) -->
+<div id="hud" class="hidden">
+  <div id="hud-top-left">
+    <div id="health-bar"><div id="health-fill"></div></div>
+    <div id="money">$250</div>
+    <div id="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+  </div>
+  <div id="hud-top-right">
+    <div id="clock">09:00</div>
+    <div id="speed">0 mph</div>
+  </div>
+  <div id="objective"></div>
+  <div id="messages"></div>
+  <canvas id="minimap" width="180" height="180"></canvas>
+  <div id="crosshair" class="hidden">+</div>
+</div>
+
+<!-- Mission intro card -->
+<div id="mission-card" class="hidden">
+  <div id="mission-title"></div>
+  <div id="mission-brief"></div>
+</div>
+
+<!-- Title screen -->
+<div id="start-screen" class="screen">
+  <div class="panel">
+    <h1>CAYO VERDE</h1>
+    <p class="tagline">Sun, sand, and a city that never forgives.</p>
+    <p class="story">You washed up in Cayo Verde with $250, a borrowed shirt and a long list of
+      people you owe. The streets pay those who take. Steal a car, lose the cops,
+      run the jobs — and take the city for yourself.</p>
+    <ul class="controls">
+      <li><b>W A S D</b> — Move / drive</li>
+      <li><b>Mouse</b> — Look / aim</li>
+      <li><b>Left click</b> — Shoot</li>
+      <li><b>Shift</b> — Sprint</li>
+      <li><b>Space</b> — Brake / jump</li>
+      <li><b>E</b> — Enter / exit vehicle</li>
+      <li><b>P / Esc</b> — Pause</li>
+    </ul>
+    <div class="buttons">
+      <button id="btn-start" class="btn primary">START GAME</button>
+      <button id="btn-continue" class="btn">CONTINUE</button>
+    </div>
+  </div>
+</div>
+
+<!-- Pause screen -->
+<div id="pause-screen" class="screen hidden">
+  <div class="panel">
+    <h2>PAUSED</h2>
+    <p class="story">The city waits for no one. Well — except now.</p>
+    <div class="buttons">
+      <button id="btn-resume" class="btn primary">RESUME</button>
+      <button id="btn-restart" class="btn">RESTART</button>
+      <button id="btn-mute" class="btn">MUTE</button>
+    </div>
+  </div>
+</div>
+
+<!-- Game over screen -->
+<div id="gameover-screen" class="screen hidden">
+  <div class="panel">
+    <h2 class="wasted">WASTED</h2>
+    <p class="story">Cayo Verde chews up the careless. Get up, dust off, go again.</p>
+    <div class="buttons">
+      <button id="btn-retry" class="btn primary">RETRY</button>
+    </div>
+  </div>
+</div>
+
+<script src="vendor/three.min.js"></script>
+<script type="module" src="src/main.js"></script>
 </body>
 </html>
